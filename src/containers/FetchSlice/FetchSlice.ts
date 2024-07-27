@@ -7,15 +7,22 @@ export interface CategoryProps{
     type: string;
     name: string;
 }
-
+interface TransactionProps {
+    id?: string;
+    category: string;
+    amount: number;
+    createAt: string;
+}
 interface CategoryState {
     categories: CategoryProps[];
+    transaction: TransactionProps[]
     loading: boolean;
     error: boolean;
 }
 
 const initialState: CategoryState = {
     categories: [],
+    transaction: [],
     loading: false,
     error: false,
 }
@@ -36,6 +43,14 @@ export const postCategory = createAsyncThunk<CategoryProps, CategoryProps>('cate
     }
 });
 
+export const postTransaction = createAsyncThunk<TransactionProps, TransactionProps>('dishes/sendDish', async (transaction) => {
+    try {
+        const response = await axiosAPI.post('/finance/transaction.json', transaction);
+        return { ...transaction, id: response.data.name };
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
 export const FinanceSlice = createSlice({
     name:'finance',
     initialState,
