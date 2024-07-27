@@ -1,7 +1,19 @@
 import CategoryCardComponent from "../components/CategoryCardComponent.tsx";
 import {NavLink} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../app/store.ts";
+import {useEffect} from "react";
+import {getCategory} from "./FetchSlice/FetchSlice.ts";
 
 const CategoryBlock = () => {
+    const dispatch = useDispatch<AppDispatch>();
+    const { categories, loading, error } = useSelector((state: RootState) => state.finance);
+
+    useEffect(() => {
+        dispatch(getCategory())
+    }, [dispatch]);
+
+    console.log(categories)
     return (
         <div>
             <div style={{display:'flex', alignItems:'center' , justifyContent:'space-between'}}>
@@ -9,9 +21,13 @@ const CategoryBlock = () => {
                 <NavLink to={'/category/add'}>Add</NavLink>
             </div>
 
-            <CategoryCardComponent />
-            <CategoryCardComponent />
-            <CategoryCardComponent />
+            {categories && categories.length > 0 ? (
+                categories.map((category) => (
+                    <CategoryCardComponent key={category.id} name={category.name} type={category.type} />
+                ))
+            ) : (
+                <p>No categories available.</p>
+            )}
         </div>
     );
 };

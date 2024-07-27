@@ -1,7 +1,8 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import axiosAPI from "../../axios/AxiosAPI.ts";
+import {RootState} from "../../app/store.ts";
 
-interface CategoryProps{
+export interface CategoryProps{
     id?: string;
     type: string;
     name: string;
@@ -18,7 +19,14 @@ const initialState: CategoryState = {
     loading: false,
     error: false,
 }
-
+export const getCategory = createAsyncThunk<CategoryProps[], void, {state: RootState}>('categories/getCategory', async () => {
+    try {
+        const response = await axiosAPI.get(`/finance/categories.json`);
+        return Object.keys(response.data).map(key => ({...response.data[key], id: key}));
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
 export const postCategory = createAsyncThunk<CategoryProps, CategoryProps>('categories/postCategory', async (newCategory) => {
     try {
         const response = await axiosAPI.post('/finance/categories.json', newCategory);
@@ -47,6 +55,16 @@ export const FinanceSlice = createSlice({
                 state.loading = false;
             })
             .addCase(postCategory.rejected, (state:CategoryState) => {
+                state.loading = false;
+                state.error = false;
+            }).addCase(getCategory.pending, (state:CategoryState) => {
+                state.loading = true;
+                state.error = false;
+            }).addCase(getCategory.fulfilled, (state:CategoryState, action:PayloadAction<CategoryProps[]>) => {
+                state.categories = action.payload;
+                state.loading = false;
+                console.log(state.categories)
+            }).addCase(getCategory.rejected, (state:CategoryState) => {
                 state.loading = false;
                 state.error = false;
             });

@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {postCategory} from "./FetchSlice/FetchSlice.ts";
+import {useNavigate} from "react-router-dom";
 
 const AddCategory = () => {
 
@@ -9,16 +10,16 @@ const AddCategory = () => {
         name: ''
     });
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const inputTrack = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setCategoryData({...categoryData, [name]: value});
     };
 
-
     const dataSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         await dispatch(postCategory(categoryData))
-        console.log(categoryData)
+        await navigate('/category')
     };
 
     return (
