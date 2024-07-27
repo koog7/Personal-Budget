@@ -1,15 +1,16 @@
-import {useState} from "react";
-
-const HomeCardComponent = () => {
-
-    const [type, setType] = useState('income');
-    const [amount, setAmount] = useState('');
+interface TransactionProps {
+    amount: string;
+    category: string;
+    createdAt: string;
+    id: string;
+}
+const HomeCardComponent: React.FC<TransactionProps> = ({ amount, category, createdAt }) => {
 
     return (
         <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', border:'1px solid white', padding:'10px', marginTop:'10px'}}>
             <div style={{display:'flex'}}>
                 <div>
-                    <p>2023-01-05 15:00:00</p>
+                    <p>{createdAt}</p>
                 </div>
                 <div style={{marginLeft:'50px'}}>
                     <p>Salary</p>
@@ -17,7 +18,7 @@ const HomeCardComponent = () => {
             </div>
             <div style={{display:'flex', alignItems:'center'}}>
                 <div style={{marginRight:'20px'}}>
-                    <p>+1000 KGS</p>
+                    <p>+{amount} KGS</p>
                 </div>
                 <div>
                     <button style={{marginRight:'10px'}}>Edit</button>

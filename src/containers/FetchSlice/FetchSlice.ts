@@ -7,7 +7,7 @@ export interface CategoryProps{
     type: string;
     name: string;
 }
-interface TransactionProps {
+export interface TransactionProps {
     id?: string;
     category: string;
     amount: number;
@@ -29,6 +29,16 @@ const initialState: CategoryState = {
 export const getCategory = createAsyncThunk<CategoryProps[], void, {state: RootState}>('categories/getCategory', async () => {
     try {
         const response = await axiosAPI.get(`/finance/categories.json`);
+        return Object.keys(response.data).map(key => ({...response.data[key], id: key}));
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
+
+export const getTransaction = createAsyncThunk<TransactionProps[], void, {state: RootState}>('transactions/getTransaction', async () => {
+    try {
+        const response = await axiosAPI.get(`/finance/transaction.json`);
+        console.log(response)
         return Object.keys(response.data).map(key => ({...response.data[key], id: key}));
     } catch (error) {
         console.error('Error:', error);
@@ -82,6 +92,18 @@ export const FinanceSlice = createSlice({
             }).addCase(getCategory.rejected, (state:CategoryState) => {
                 state.loading = false;
                 state.error = false;
+            }).addCase(getTransaction.pending, (state:CategoryState) => {
+                state.loading = true;
+                state.error = false;
+            })
+            .addCase(getTransaction.fulfilled, (state:CategoryState, action: PayloadAction<TransactionProps[]>) => {
+                state.transaction = action.payload;
+                state.loading = false;
+                console.log(state.transaction)
+            })
+            .addCase(getTransaction.rejected, (state:CategoryState) => {
+                state.loading = false;
+                state.error = true;
             });
     },
 })
