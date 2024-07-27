@@ -1,4 +1,4 @@
-const AddBlock = () => {
+const AddCategory = () => {
     return (
         <div className="form-wrapper">
             <form className="add-form">
@@ -20,4 +20,4 @@ const AddBlock = () => {
     );
 };
 
-export default AddBlock;
+export default AddCategory;

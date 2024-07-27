@@ -2,8 +2,9 @@ import './App.css'
 import {NavLink, Route, Routes} from "react-router-dom";
 import Home from "./containers/Home.tsx";
 import CategoryBlock from "./containers/CategoryBlock.tsx";
-import AddBlock from "./containers/AddBlock.tsx";
+import AddCategory from "./containers/AddCategory.tsx";
 import NotFound from "./components/NotFound.tsx";
+import AddTransaction from "./containers/AddTransaction.tsx";
 
 const App = () => {
 
@@ -22,7 +23,7 @@ const App = () => {
                     color: 'white'
                 }}>Finance Tracker</NavLink></h2>
                 <NavLink to={'/category'} style={{marginLeft:'auto'}}>Categories</NavLink>
-                <NavLink to={'/add'} style={{marginRight:'10px',marginLeft:'20px'}}>Add</NavLink>
+                <NavLink to={'/transaction/add'} style={{marginRight:'10px',marginLeft:'20px'}}>Add</NavLink>
             </div>
             <hr/>
 
@@ -36,8 +37,11 @@ const App = () => {
                 <Route path="/category" element={(
                     <CategoryBlock/>
                 )}/>
-                <Route path="/add" element={(
-                    <AddBlock/>
+                <Route path="/category/add" element={(
+                    <AddCategory/>
+                )}/>
+                <Route path="/transaction/add" element={(
+                    <AddTransaction/>
                 )}/>
             </Routes>
         </>
