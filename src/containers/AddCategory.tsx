@@ -43,7 +43,7 @@ const AddCategory = () => {
         } else {
             await axiosAPI.post(`/finance/categories.json`, categoryData);
         }
-        await navigate('/category')
+        await navigate('/category');
     };
 
     return (

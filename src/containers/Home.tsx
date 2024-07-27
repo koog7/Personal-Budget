@@ -39,6 +39,7 @@ const Home = () => {
             <div id="loader-container" style={{display: loading ? 'block' : 'none'}}>
                 <div className="loader"></div>
             </div>
+            {error && <div className="error">Something gone wrong...</div>}
             <h1>Total: <span>{totalBalance} KGS</span></h1>
 
             {transaction.length === 0 ? (
