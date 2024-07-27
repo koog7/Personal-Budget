@@ -3,6 +3,7 @@ import {NavLink, Route, Routes} from "react-router-dom";
 import Home from "./containers/Home.tsx";
 import CategoryBlock from "./containers/CategoryBlock.tsx";
 import AddBlock from "./containers/AddBlock.tsx";
+import NotFound from "./components/NotFound.tsx";
 
 const App = () => {
 
@@ -28,6 +29,9 @@ const App = () => {
             <Routes>
                 <Route path="/" element={(
                     <Home/>
+                )}/>
+                <Route path="*" element={(
+                    <NotFound/>
                 )}/>
                 <Route path="/category" element={(
                     <CategoryBlock/>

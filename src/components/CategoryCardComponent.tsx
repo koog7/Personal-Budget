@@ -3,7 +3,7 @@ const CategoryCardComponent = () => {
         <div>
             <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', border:'1px solid white', padding:'10px', marginTop:'10px'}}>
                 <div style={{display:'flex'}}>
-                    <div style={{marginLeft:'50px'}}>
+                    <div style={{marginLeft:'25px'}}>
                         <p>Salary</p>
                     </div>
                 </div>
