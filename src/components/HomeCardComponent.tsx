@@ -1,13 +1,25 @@
+import {useDispatch} from "react-redux";
+import {deleteCategory, deleteTransaction} from "../containers/FetchSlice/FetchSlice.ts";
+
 interface TransactionProps {
     amount: string;
     category: string;
     createdAt: string;
     id: string;
 }
-const HomeCardComponent: React.FC<TransactionProps> = ({ amount, category, createdAt, type }) => {
+const HomeCardComponent: React.FC<TransactionProps> = ({ amount, category, createdAt, type , id}) => {
+    const dispatch = useDispatch();
 
     const amountSign = type === 'income' ? '+' : '-';
     const textColor = type === 'income' ? 'green' : 'red';
+
+    const deleteBlock = (id:string) => {
+
+        if (confirm('Are you want to delete this category?')) {
+            console.log(deleteTransaction(id))
+            dispatch(deleteTransaction(id));
+        }
+    }
 
     return (
         <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', border:'1px solid white', padding:'10px', marginTop:'10px'}}>
@@ -25,7 +37,7 @@ const HomeCardComponent: React.FC<TransactionProps> = ({ amount, category, creat
                 </div>
                 <div>
                     <button style={{marginRight:'10px'}}>Edit</button>
-                    <button>Delete</button>
+                    <button onClick={() => deleteBlock(id)}>Delete</button>
                 </div>
             </div>
         </div>

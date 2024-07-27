@@ -61,6 +61,15 @@ export const postTransaction = createAsyncThunk<TransactionProps, TransactionPro
         console.error('Error:', error);
     }
 });
+
+export const deleteTransaction = createAsyncThunk<string, string, { state: RootState }>('categories/deleteCategory', async (id:string) => {
+    try {
+        await axiosAPI.delete(`/finance/transaction/${id}.json`);
+        return id;
+    }catch (error) {
+        console.error('Error:', error);
+    }
+});
 export const FinanceSlice = createSlice({
     name:'finance',
     initialState,
@@ -102,6 +111,15 @@ export const FinanceSlice = createSlice({
                 console.log(state.transaction)
             })
             .addCase(getTransaction.rejected, (state:CategoryState) => {
+                state.loading = false;
+                state.error = true;
+            }).addCase(deleteTransaction.pending, (state: CategoryState) => {
+                state.loading = true;
+                state.error = false;
+            }).addCase(deleteTransaction.fulfilled, (state: CategoryState, action: PayloadAction<string>) => {
+                state.loading = false;
+                state.transaction = state.transaction.filter(order => order.id !== action.payload);
+            }).addCase(deleteTransaction.rejected, (state: CategoryState) => {
                 state.loading = false;
                 state.error = true;
             });
