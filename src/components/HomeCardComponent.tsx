@@ -4,7 +4,10 @@ interface TransactionProps {
     createdAt: string;
     id: string;
 }
-const HomeCardComponent: React.FC<TransactionProps> = ({ amount, category, createdAt }) => {
+const HomeCardComponent: React.FC<TransactionProps> = ({ amount, category, createdAt, type }) => {
+
+    const amountSign = type === 'income' ? '+' : '-';
+    const textColor = type === 'income' ? 'green' : 'red';
 
     return (
         <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', border:'1px solid white', padding:'10px', marginTop:'10px'}}>
@@ -17,8 +20,8 @@ const HomeCardComponent: React.FC<TransactionProps> = ({ amount, category, creat
                 </div>
             </div>
             <div style={{display:'flex', alignItems:'center'}}>
-                <div style={{marginRight:'20px'}}>
-                    <p>+{amount} KGS</p>
+                <div style={{marginRight:'20px', color: textColor}}>
+                    <p>{amountSign}{amount} KGS</p>
                 </div>
                 <div>
                     <button style={{marginRight:'10px'}}>Edit</button>
