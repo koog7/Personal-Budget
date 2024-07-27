@@ -10,10 +10,10 @@ const CategoryBlock = () => {
     const { categories, loading, error } = useSelector((state: RootState) => state.finance);
 
     useEffect(() => {
-        dispatch(getCategory())
+        dispatch(getCategory());
     }, [dispatch]);
 
-    console.log(categories)
+    console.log(categories);
     return (
         <div>
             <div id="loader-container" style={{display: loading ? 'block' : 'none'}}>

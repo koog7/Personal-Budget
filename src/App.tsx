@@ -1,4 +1,4 @@
-import './App.css'
+import './App.css';
 import {NavLink, Route, Routes} from "react-router-dom";
 import Home from "./containers/Home.tsx";
 import CategoryBlock from "./containers/CategoryBlock.tsx";
@@ -51,8 +51,8 @@ const App = () => {
                 )}/>
             </Routes>
         </>
-    )
+    );
 
 };
 
-export default App
+export default App;

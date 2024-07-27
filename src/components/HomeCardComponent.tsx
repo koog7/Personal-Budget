@@ -1,5 +1,5 @@
 import {useDispatch} from "react-redux";
-import {deleteCategory, deleteTransaction} from "../containers/FetchSlice/FetchSlice.ts";
+import {deleteTransaction} from "../containers/FetchSlice/FetchSlice.ts";
 import {NavLink} from "react-router-dom";
 
 interface TransactionProps {
@@ -19,7 +19,7 @@ const HomeCardComponent: React.FC<TransactionProps> = ({ amount, category, creat
         if (confirm('Are you want to delete this category?')) {
             dispatch(deleteTransaction(id));
         }
-    }
+    };
 
     return (
         <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', border:'1px solid white', padding:'10px', marginTop:'10px'}}>

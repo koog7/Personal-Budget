@@ -12,7 +12,7 @@ const CategoryCardComponent: React.FC<CategoryProps> = ({name, type, id}) => {
         if (confirm('Are you want to delete this category?')) {
             dispatch(deleteCategory(id));
         }
-    }
+    };;
 
     return (
         <div>

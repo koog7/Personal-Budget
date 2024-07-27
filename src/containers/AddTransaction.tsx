@@ -16,7 +16,7 @@ const AddTransaction = () => {
     const { id } = useParams<string>();
 
     useEffect(() => {
-        dispatch(getCategory())
+        dispatch(getCategory());
     }, [dispatch]);
 
     const typeTrack = (e) => {

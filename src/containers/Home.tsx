@@ -9,8 +9,8 @@ const Home = () => {
     const { categories , transaction = [], loading, error } = useSelector((state: RootState) => state.finance);
 
     useEffect(() => {
-        dispatch(getTransaction())
-        dispatch(getCategory())
+        dispatch(getTransaction());
+        dispatch(getCategory());
     }, []);
 
     const categoryId = (id: string) => {

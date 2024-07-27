@@ -25,7 +25,7 @@ const initialState: CategoryState = {
     transaction: [],
     loading: false,
     error: false,
-}
+};
 export const getCategory = createAsyncThunk<CategoryProps[], void, {state: RootState}>('categories/getCategory', async () => {
     try {
         const response = await axiosAPI.get(`/finance/categories.json`);
@@ -83,7 +83,7 @@ export const FinanceSlice = createSlice({
     initialState,
     reducers: {
         consoleLogger: (state) => {
-            console.log(state.categories)
+            console.log(state.categories);
         },
     },
     extraReducers: (builder) => {
@@ -139,6 +139,6 @@ export const FinanceSlice = createSlice({
                 state.error = true;
             });
     },
-})
+});
 
 export const FinanceReducer = FinanceSlice.reducer;

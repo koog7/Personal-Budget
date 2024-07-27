@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {postCategory} from "./FetchSlice/FetchSlice.ts";
+import {useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
 import {RootState} from "../app/store.ts";
 import axiosAPI from "../axios/AxiosAPI.ts";
