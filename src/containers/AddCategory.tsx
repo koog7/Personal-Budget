@@ -1,8 +1,9 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {postCategory} from "./FetchSlice/FetchSlice.ts";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {RootState} from "../app/store.ts";
+import axiosAPI from "../axios/AxiosAPI.ts";
 
 const AddCategory = () => {
 
@@ -13,14 +14,37 @@ const AddCategory = () => {
     const {loading} = useSelector((state: RootState) => state.finance);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const {id} = useParams<{string}>();
     const inputTrack = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setCategoryData({...categoryData, [name]: value});
     };
 
+    useEffect(() => {
+        const fetchCategory = async () => {
+            if (id) {
+                try {
+                    const response = await axiosAPI.get(`/finance/categories/${id}.json`);
+                    const category = response.data;
+                    setCategoryData({
+                        type: category.type,
+                        name: category.name
+                    });
+                } catch (err) {
+                    console.error('Error fetching category:', err);
+                }
+            }
+        };
+        fetchCategory();
+    }, [id]);
+
     const dataSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        await dispatch(postCategory(categoryData))
+        if (id) {
+            await axiosAPI.put(`/finance/categories/${id}.json`, categoryData);
+        } else {
+            await axiosAPI.post(`/finance/categories.json`, categoryData);
+        }
         await navigate('/category')
     };
 

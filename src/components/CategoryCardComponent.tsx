@@ -1,6 +1,7 @@
-import {CategoryProps, deleteCategory, deleteTransaction} from "../containers/FetchSlice/FetchSlice.ts";
+import {CategoryProps, deleteCategory} from "../containers/FetchSlice/FetchSlice.ts";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../app/store.ts";
+import {NavLink} from "react-router-dom";
 
 const CategoryCardComponent: React.FC<CategoryProps> = ({name, type, id}) => {
 
@@ -26,7 +27,7 @@ const CategoryCardComponent: React.FC<CategoryProps> = ({name, type, id}) => {
                         <p>{type}</p>
                     </div>
                     <div>
-                        <button style={{marginRight:'10px'}}>Edit</button>
+                        <button style={{marginRight:'10px'}}><NavLink to={`/category/edit/${id}`} style={{color:'white', textDecoration:'none'}}>Edit</NavLink></button>
                         <button onClick={() => deleteBlock(id)}>Delete</button>
                     </div>
                 </div>
