@@ -16,7 +16,6 @@ const HomeCardComponent: React.FC<TransactionProps> = ({ amount, category, creat
     const deleteBlock = (id:string) => {
 
         if (confirm('Are you want to delete this category?')) {
-            console.log(deleteTransaction(id))
             dispatch(deleteTransaction(id));
         }
     }

@@ -53,7 +53,7 @@ export const postCategory = createAsyncThunk<CategoryProps, CategoryProps>('cate
     }
 });
 
-export const postTransaction = createAsyncThunk<TransactionProps, TransactionProps>('dishes/sendDish', async (transaction) => {
+export const postTransaction = createAsyncThunk<TransactionProps, TransactionProps>('transactions/postTransaction', async (transaction) => {
     try {
         const response = await axiosAPI.post('/finance/transaction.json', transaction);
         return { ...transaction, id: response.data.name };
@@ -62,9 +62,18 @@ export const postTransaction = createAsyncThunk<TransactionProps, TransactionPro
     }
 });
 
-export const deleteTransaction = createAsyncThunk<string, string, { state: RootState }>('categories/deleteCategory', async (id:string) => {
+export const deleteTransaction = createAsyncThunk<string, string, { state: RootState }>('transactions/deleteTransaction', async (id:string) => {
     try {
         await axiosAPI.delete(`/finance/transaction/${id}.json`);
+        return id;
+    }catch (error) {
+        console.error('Error:', error);
+    }
+});
+
+export const deleteCategory = createAsyncThunk<string, string, { state: RootState }>('categories/deleteCategory', async (id:string) => {
+    try {
+        await axiosAPI.delete(`/finance/categories/${id}.json`);
         return id;
     }catch (error) {
         console.error('Error:', error);
@@ -108,7 +117,6 @@ export const FinanceSlice = createSlice({
             .addCase(getTransaction.fulfilled, (state:CategoryState, action: PayloadAction<TransactionProps[]>) => {
                 state.transaction = action.payload;
                 state.loading = false;
-                console.log(state.transaction)
             })
             .addCase(getTransaction.rejected, (state:CategoryState) => {
                 state.loading = false;
@@ -120,6 +128,15 @@ export const FinanceSlice = createSlice({
                 state.loading = false;
                 state.transaction = state.transaction.filter(order => order.id !== action.payload);
             }).addCase(deleteTransaction.rejected, (state: CategoryState) => {
+                state.loading = false;
+                state.error = true;
+            }).addCase(deleteCategory.pending, (state: CategoryState) => {
+                state.loading = true;
+                state.error = false;
+            }).addCase(deleteCategory.fulfilled, (state: CategoryState, action: PayloadAction<string>) => {
+                state.loading = false;
+                state.categories = state.categories.filter(order => order.id !== action.payload);
+            }).addCase(deleteCategory.rejected, (state: CategoryState) => {
                 state.loading = false;
                 state.error = true;
             });

@@ -1,8 +1,17 @@
-import {CategoryProps} from "../containers/FetchSlice/FetchSlice.ts";
+import {CategoryProps, deleteCategory, deleteTransaction} from "../containers/FetchSlice/FetchSlice.ts";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../app/store.ts";
 
-const CategoryCardComponent: React.FC<CategoryProps> = ({name, type}) => {
+const CategoryCardComponent: React.FC<CategoryProps> = ({name, type, id}) => {
 
     const textColor = type === 'income' ? 'green' : 'red';
+
+    const dispatch = useDispatch<AppDispatch>();
+    const deleteBlock = (id:string) => {
+        if (confirm('Are you want to delete this category?')) {
+            dispatch(deleteCategory(id));
+        }
+    }
 
     return (
         <div>
@@ -18,7 +27,7 @@ const CategoryCardComponent: React.FC<CategoryProps> = ({name, type}) => {
                     </div>
                     <div>
                         <button style={{marginRight:'10px'}}>Edit</button>
-                        <button>Delete</button>
+                        <button onClick={() => deleteBlock(id)}>Delete</button>
                     </div>
                 </div>
             </div>

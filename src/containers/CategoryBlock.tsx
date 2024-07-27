@@ -26,7 +26,7 @@ const CategoryBlock = () => {
 
             {categories && categories.length > 0 ? (
                 categories.map((category) => (
-                    <CategoryCardComponent key={category.id} name={category.name} type={category.type}/>
+                    <CategoryCardComponent key={category.id} id={category.id} name={category.name} type={category.type}/>
                 ))
             ) : (
                 <p>No categories available.</p>
