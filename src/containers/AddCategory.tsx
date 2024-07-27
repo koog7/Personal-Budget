@@ -1,4 +1,6 @@
 import {useState} from "react";
+import {useDispatch} from "react-redux";
+import {postCategory} from "./FetchSlice/FetchSlice.ts";
 
 const AddCategory = () => {
 
@@ -6,15 +8,16 @@ const AddCategory = () => {
         type: 'income',
         name: ''
     });
-
+    const dispatch = useDispatch();
     const inputTrack = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setCategoryData({...categoryData, [name]: value});
     };
 
 
-    const dataSubmit = (e: React.FormEvent) => {
+    const dataSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        await dispatch(postCategory(categoryData))
         console.log(categoryData)
     };
 
