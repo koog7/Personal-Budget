@@ -55,6 +55,9 @@ const AddTransaction = () => {
 
     return (
         <div className="form-wrapper">
+            <div id="loader-container" style={{display: loading ? 'block' : 'none'}}>
+                <div className="loader"></div>
+            </div>
             <form className="add-form" onSubmit={dataSubmit}>
                 <h2 className="title">Add transaction</h2>
                 <div className="form-group">
@@ -66,7 +69,8 @@ const AddTransaction = () => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="category" className="label">Category</label>
-                    <select id="category" name="category" className="form-input" value={selectedCategory?.id ?? ''} onChange={categoryTrack}>
+                    <select id="category" name="category" className="form-input" value={selectedCategory?.id ?? ''}
+                            onChange={categoryTrack}>
                         <option>Choose option</option>
                         {filterCategory.map((category) => (
                             <option key={category.id} value={category.id}>{category.name}</option>
@@ -75,7 +79,8 @@ const AddTransaction = () => {
                 </div>
                 <div className="form-group" style={{width: '383px'}}>
                     <label htmlFor="amount" className="label">Amount (KGS)</label>
-                    <input type="number" id="amount" name="amount" className="form-input" value={amount} onChange={amountTrack} />
+                    <input type="number" id="amount" name="amount" className="form-input" value={amount}
+                           onChange={amountTrack}/>
                 </div>
                 <button type="submit" className="form-button">Submit</button>
             </form>

@@ -37,6 +37,9 @@ const Home = () => {
 
     return (
         <div>
+            <div id="loader-container" style={{display: loading ? 'block' : 'none'}}>
+                <div className="loader"></div>
+            </div>
             <h1>Total: <span>{totalBalance} KGS</span></h1>
 
             {transaction.length === 0 ? (

@@ -16,14 +16,17 @@ const CategoryBlock = () => {
     console.log(categories)
     return (
         <div>
-            <div style={{display:'flex', alignItems:'center' , justifyContent:'space-between'}}>
+            <div id="loader-container" style={{display: loading ? 'block' : 'none'}}>
+                <div className="loader"></div>
+            </div>
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                 <h1>Categories</h1>
                 <NavLink to={'/category/add'}>Add</NavLink>
             </div>
 
             {categories && categories.length > 0 ? (
                 categories.map((category) => (
-                    <CategoryCardComponent key={category.id} name={category.name} type={category.type} />
+                    <CategoryCardComponent key={category.id} name={category.name} type={category.type}/>
                 ))
             ) : (
                 <p>No categories available.</p>
