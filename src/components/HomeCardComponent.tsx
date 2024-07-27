@@ -13,7 +13,7 @@ const HomeCardComponent: React.FC<TransactionProps> = ({ amount, category, creat
                     <p>{createdAt}</p>
                 </div>
                 <div style={{marginLeft:'50px'}}>
-                    <p>Salary</p>
+                    <p>{category}</p>
                 </div>
             </div>
             <div style={{display:'flex', alignItems:'center'}}>

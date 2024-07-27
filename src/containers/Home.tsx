@@ -6,26 +6,37 @@ import {AppDispatch, RootState} from "../app/store.ts";
 
 const Home = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { transaction, loading, error } = useSelector((state: RootState) => state.finance);
+    const { categories , transaction = [], loading, error } = useSelector((state: RootState) => state.finance);
 
     useEffect(() => {
         dispatch(getTransaction())
         console.log(transaction)
     }, []);
 
+    const getCategoryNameById = (id: string) => {
+        const category = categories.find(category => category.id === id);
+        return category ? category.name : 'Unknown Category';
+    };
+
     return (
         <div>
             <h1>Total: <span>{3000} KGS</span></h1>
 
-            {transaction.map((transaction) => (
-                <HomeCardComponent
-                    key={transaction.id}
-                    amount={transaction.amount}
-                    category={transaction.category}
-                    createdAt={transaction.createdAt.replace(/T/, ' ').replace(/\.\d+Z$/, '')}
-                    id={transaction.id}
-                />
-            ))}
+            {transaction.length === 0 ? (
+                <p>No transactions available.</p>
+            ) : (
+                transaction.map((transaction) => {
+                    return (
+                        <HomeCardComponent
+                            key={transaction.id}
+                            amount={transaction.amount}
+                            category={getCategoryNameById(transaction.category)}
+                            createdAt={transaction.createdAt.replace(/T/, ' ').replace(/\.\d+Z$/, '')}
+                            id={transaction.id}
+                        />
+                    );
+                })
+            )}
         </div>
     );
 };

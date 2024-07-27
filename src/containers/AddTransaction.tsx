@@ -49,7 +49,7 @@ const AddTransaction = () => {
             category: selectedCategory.id,
         };
         await dispatch(postTransaction(dataWithDate));
-        await navigate('/category');
+        await navigate('/');
     };
 
 
