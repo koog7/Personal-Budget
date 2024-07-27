@@ -1,5 +1,6 @@
 import {useDispatch} from "react-redux";
 import {deleteCategory, deleteTransaction} from "../containers/FetchSlice/FetchSlice.ts";
+import {NavLink} from "react-router-dom";
 
 interface TransactionProps {
     amount: string;
@@ -35,7 +36,7 @@ const HomeCardComponent: React.FC<TransactionProps> = ({ amount, category, creat
                     <p>{amountSign}{amount} KGS</p>
                 </div>
                 <div>
-                    <button style={{marginRight:'10px'}}>Edit</button>
+                    <button style={{marginRight:'10px'}}><NavLink to={`/transaction/edit/${id}`} style={{color:'white', textDecoration:'none'}}>Edit</NavLink></button>
                     <button onClick={() => deleteBlock(id)}>Delete</button>
                 </div>
             </div>

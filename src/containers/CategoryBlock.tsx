@@ -19,6 +19,7 @@ const CategoryBlock = () => {
             <div id="loader-container" style={{display: loading ? 'block' : 'none'}}>
                 <div className="loader"></div>
             </div>
+            {error && <div className="error">Something gone wrong...</div>}
             <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                 <h1>Categories</h1>
                 <NavLink to={'/category/add'}>Add</NavLink>

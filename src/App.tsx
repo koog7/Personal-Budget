@@ -40,7 +40,13 @@ const App = () => {
                 <Route path="/category/add" element={(
                     <AddCategory/>
                 )}/>
+                <Route path="/category/edit/:id" element={(
+                    <AddCategory/>
+                )}/>
                 <Route path="/transaction/add" element={(
+                    <AddTransaction/>
+                )}/>
+                <Route path="/transaction/edit/:id" element={(
                     <AddTransaction/>
                 )}/>
             </Routes>

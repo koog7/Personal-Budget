@@ -11,7 +11,6 @@ const Home = () => {
     useEffect(() => {
         dispatch(getTransaction())
         dispatch(getCategory())
-        console.log(transaction)
     }, []);
 
     const categoryId = (id: string) => {

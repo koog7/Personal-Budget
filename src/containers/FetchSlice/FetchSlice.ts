@@ -38,7 +38,6 @@ export const getCategory = createAsyncThunk<CategoryProps[], void, {state: RootS
 export const getTransaction = createAsyncThunk<TransactionProps[], void, {state: RootState}>('transactions/getTransaction', async () => {
     try {
         const response = await axiosAPI.get(`/finance/transaction.json`);
-        console.log(response)
         return Object.keys(response.data).map(key => ({...response.data[key], id: key}));
     } catch (error) {
         console.error('Error:', error);
@@ -106,7 +105,6 @@ export const FinanceSlice = createSlice({
             }).addCase(getCategory.fulfilled, (state:CategoryState, action:PayloadAction<CategoryProps[]>) => {
                 state.categories = action.payload;
                 state.loading = false;
-                console.log(state.categories)
             }).addCase(getCategory.rejected, (state:CategoryState) => {
                 state.loading = false;
                 state.error = false;

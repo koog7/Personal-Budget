@@ -1,22 +1,23 @@
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../app/store.ts";
 import {useEffect, useState} from "react";
-import {CategoryProps, getCategory, postTransaction} from "./FetchSlice/FetchSlice.ts";
-import {useNavigate} from "react-router-dom";
+import {getCategory} from "./FetchSlice/FetchSlice.ts";
+import {useNavigate, useParams} from "react-router-dom";
+import axiosAPI from "../axios/AxiosAPI.ts";
 
 const AddTransaction = () => {
     const [type, setType] = useState('income');
     const [amount, setAmount] = useState(0);
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
     const dispatch = useDispatch<AppDispatch>();
     const { categories, loading, error } = useSelector((state: RootState) => state.finance);
     const navigate = useNavigate();
+    const { id } = useParams<string>();
 
     useEffect(() => {
         dispatch(getCategory())
-        console.log(selectedCategory)
-    }, [dispatch , selectedCategory]);
+    }, [dispatch]);
 
     const typeTrack = (e) => {
         setType(e.target.value);
@@ -24,8 +25,7 @@ const AddTransaction = () => {
     };
     const categoryTrack = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedId = e.target.value;
-        const category = categories.find(category => category.id === selectedId);
-        setSelectedCategory(category);
+        setSelectedCategory(selectedId);
     };
     const amountTrack = (e) => {
         const value = e.target.value;
@@ -35,29 +35,59 @@ const AddTransaction = () => {
     };
 
     const filterCategory = categories.filter(category => category.type === type);
+    useEffect(() => {
+        const fetchTransaction = async () => {
+            if (id) {
+                try {
+                    const response = await axiosAPI.get(`/finance/transaction/${id}.json`);
+                    const data = response.data;
+
+                    setType(data.type);
+                    setAmount(data.amount);
+
+                    const categoryResponse = await axiosAPI.get(`/finance/categories/${data.category.id}.json`);
+                    const categoryData = categoryResponse.data;
+                    setSelectedCategory(categoryData.id);
+                } catch (error) {
+                    console.error('error:', error);
+                }
+            }
+        };
+
+        fetchTransaction();
+    }, [id]);
 
     const dataSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!selectedCategory) {
-            console.error('Category selected');
+            console.error('Category must be selected');
             return;
         }
         const currentDate = new Date().toISOString();
         const dataWithDate = {
             createdAt: currentDate,
             amount: amount,
-            category: selectedCategory.id,
+            category: selectedCategory,
+            type: type,
         };
-        await dispatch(postTransaction(dataWithDate));
-        await navigate('/');
+        try {
+            if (id) {
+                await axiosAPI.put(`/finance/transaction/${id}.json`, dataWithDate);
+            } else {
+                await axiosAPI.post('/finance/transaction.json', dataWithDate);
+            }
+            navigate('/');
+        } catch (error) {
+            console.error('error:', error);
+        }
     };
-
 
     return (
         <div className="form-wrapper">
             <div id="loader-container" style={{display: loading ? 'block' : 'none'}}>
                 <div className="loader"></div>
             </div>
+            {error && <div className="error">Something gone wrong...</div>}
             <form className="add-form" onSubmit={dataSubmit}>
                 <h2 className="title">Add transaction</h2>
                 <div className="form-group">
@@ -69,7 +99,7 @@ const AddTransaction = () => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="category" className="label">Category</label>
-                    <select id="category" name="category" className="form-input" value={selectedCategory?.id ?? ''}
+                    <select id="category" name="category" className="form-input" value={selectedCategory ?? ''}
                             onChange={categoryTrack}>
                         <option>Choose option</option>
                         {filterCategory.map((category) => (

@@ -12,7 +12,6 @@ const AddCategory = () => {
         name: ''
     });
     const {loading} = useSelector((state: RootState) => state.finance);
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const {id} = useParams<{string}>();
     const inputTrack = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
