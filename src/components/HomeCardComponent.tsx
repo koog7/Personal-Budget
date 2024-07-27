@@ -1,4 +1,10 @@
+import {useState} from "react";
+
 const HomeCardComponent = () => {
+
+    const [type, setType] = useState('income');
+    const [amount, setAmount] = useState('');
+
     return (
         <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', border:'1px solid white', padding:'10px', marginTop:'10px'}}>
             <div style={{display:'flex'}}>
